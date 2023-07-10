@@ -109,11 +109,13 @@ export function getAccountType(body: MessageBody): AccountType {
 }
 
 export async function processMessage(
-  message: Message,
-  isConciseMode?: boolean
+  message: any,
+  isConciseMode?: boolean,
 ): Promise<MessageProcessedResult> {
   try {
-    const body = parseMessageBody(message.Body)
+    // .Body has only AWS messages
+    const body = parseMessageBody(message.Body || message)
+    console.log('body', body)
     if (!canProcess(body)) {
       return {
         error: `${ERROR_MESSAGE}
@@ -126,13 +128,19 @@ export async function processMessage(
     const files = body.files
     const isE2ETest = !!body.isE2ETest
     const app: App = await new App()
-
+    console.log('AccountTypes', accountType)
     // Accumulate the data for unknown rows
     for (const key of files) {
       logger.info('Accumulate data from the file: ' + key)
       const readForAccumulation = await createSourceStream(key)
-      await getAccumulateData(readForAccumulation, app, accountType, isConciseMode)
+      await getAccumulateData(
+        readForAccumulation,
+        app,
+        accountType,
+        isConciseMode,
+      )
     }
+    return {}
 
     const accData = app.getAccumulatedData(accountType)
 
@@ -142,10 +150,21 @@ export async function processMessage(
       logger.info('Enrich data in file: ' + key)
       const readForEnrichment = await createSourceStream(key)
 
-      const { upload, promise } = await createDestinationStream(key, false, isE2ETest)
+      const { upload, promise } = await createDestinationStream(
+        key,
+        false,
+        isE2ETest,
+      )
       const [, { amountOfRows }] = await Promise.all([
         promise,
-        enrichReport(app, accountType, readForEnrichment, upload, accData,isConciseMode),
+        enrichReport(
+          app,
+          accountType,
+          readForEnrichment,
+          upload,
+          accData,
+          isConciseMode,
+        ),
       ])
       const timeTakes = StopWatch.stop()
       logger.info(
@@ -156,6 +175,7 @@ export async function processMessage(
     await deleteMessage(message)
     return {}
   } catch (error) {
+    console.log('Error', error)
     const messageID = message?.MessageId
     return {
       message: `[${messageID}] Processing messsage error: ` + error.message,
@@ -172,12 +192,12 @@ async function getAccumulateData(
   input: Readable,
   app: App,
   providerType: AccountType,
-  isConciseMode?: boolean
+  isConciseMode?: boolean,
 ): Promise<any> {
   try {
     const readline = parse({
       delimiter: ',',
-      relax_column_count: true
+      relax_column_count: true,
     })
 
     const callback = (() => {
@@ -185,10 +205,11 @@ async function getAccumulateData(
       let mf: IMapperFactory
       return (line: string[]) => {
         if (firstLine) {
-          mf = createMapperFactory([...line],isConciseMode)
-          firstLine = false
+          mf = createMapperFactory([...line], isConciseMode)
+        } else {
+          app.accumulateKnownRowData(mf.create(line), providerType)
         }
-        app.accumulateKnownRowData(mf.create(line), providerType)
+        firstLine = false
       }
     })()
 
@@ -232,7 +253,7 @@ async function enrichReport(
   input: Readable,
   destination: Writable,
   accData: Record<string, unknown>,
-  isConciseMode?: boolean
+  isConciseMode?: boolean,
 ): Promise<{ amountOfRows: number }> {
   let amountOfRows = 0
   const enrichRows = (app: App) => {
@@ -241,7 +262,7 @@ async function enrichReport(
     return (line: string[]) => {
       amountOfRows++
       if (firstLine) {
-        mf = createMapperFactory([...line, ...HEADERS],isConciseMode)
+        mf = createMapperFactory([...line, ...HEADERS], isConciseMode)
         firstLine = false
         return mf.getHeaderLine()
       }
@@ -293,13 +314,18 @@ async function enrichReport(
   }
 }
 
-export async function processLocalFile({ isConciseMode}: { isConciseMode: boolean}) {
+export async function processLocalFile({
+  isConciseMode,
+}: {
+  isConciseMode: boolean
+}) {
   const accountType = 'Aws'
   const app: App = await new App()
 
   // Accumulate the data for unknown rows
   const fileName = './sample55.csv'
-  const destKey = "curReport/reports/carbon_emission_tool_cg-report/sample-concise.csv.gz"
+  const destKey =
+    'curReport/reports/carbon_emission_tool_cg-report/sample-concise.csv.gz'
 
   logger.info('Accumulate data from the file: ' + fileName)
   const readForAccumulation = await createSourceStreamLocal(fileName)
@@ -307,14 +333,21 @@ export async function processLocalFile({ isConciseMode}: { isConciseMode: boolea
 
   const accData = app.getAccumulatedData(accountType)
   // Enrich all rows
-    StopWatch.start()
+  StopWatch.start()
   logger.info('Enrich data in file: ' + fileName)
   const readForEnrichment = await createSourceStreamLocal(fileName)
 
   const { upload, promise } = await createDestinationStream(destKey, true)
   const [, { amountOfRows }] = await Promise.all([
     promise,
-    enrichReport(app, accountType, readForEnrichment, upload, accData, isConciseMode),
+    enrichReport(
+      app,
+      accountType,
+      readForEnrichment,
+      upload,
+      accData,
+      isConciseMode,
+    ),
   ])
   const timeTakes = StopWatch.stop()
   logger.info(

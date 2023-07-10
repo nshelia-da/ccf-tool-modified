@@ -6,7 +6,7 @@ import {
   ConsumptionManagementClient,
   UsageDetailUnion,
   LegacyUsageDetail,
-  ModernUsageDetail
+  ModernUsageDetail,
 } from '@azure/arm-consumption'
 import { PagedAsyncIterableIterator } from '@azure/core-paging'
 import {
@@ -198,7 +198,7 @@ export default class ConsumptionManagementService {
           usageType: inputDataRow.usageType,
           kilowattHours: footprintEstimate.kilowattHours,
           co2e: footprintEstimate.co2e,
-          usageUnit: inputDataRow.usageUnit
+          usageUnit: inputDataRow.usageUnit,
         })
       }
     })
@@ -223,27 +223,28 @@ export default class ConsumptionManagementService {
   }
 
   createConsumptionDetailRow(data: IMapper): ConsumptionDetailRow {
+    // Example of RAW report fields:
+    // "UsageDate","ResourceId","ResourceType","ResourceLocation","ResourceGroupName","ServiceName","Meter","CostUSD","Cost","Currency"
+
+    // Used in code:
+    // serviceName,region,usageType,usageUnit,timestamp,vCpuHours,cpuUtilizationAverage,gpuHours,seriesName,usageAmount,seriesName
+    const dateIn = data.get('date') as string
+
     const usageRow = {
-      // Example of RAW report fields:
-      // "UsageDate","ResourceId","ResourceType","ResourceLocation","ResourceGroupName","ServiceName","Meter","CostUSD","Cost","Currency"
-
-      // Used in code:
-      // serviceName,region,usageType,usageUnit,timestamp,vCpuHours,cpuUtilizationAverage,gpuHours,seriesName,usageAmount,seriesName
-
-      date: new Date(data.get('UsageDate') as string),
+      subscriptionName: data.get('subscriptionName') as string,
+      data: dateIn,
       quantity: data.get('quantity') as number,
-      cost: data.get('cost') as number,
-      meterDetails: {
-        meterName: data.get('usageType') as string,
-        unitOfMeasure: data.get('usageUnit') as string,
-        meterCategory: data.get('serviceName') as string,
-      },
+      region: data.get('resourceLocation'),
       tags: {},
-      subscriptionId: '',
-      subscriptionName: '',
-      resourceLocation: data.get('region') as string,
-      kind: 'legacy' as const,
+      subscriptionGuid: data.get('subscriptionGuid') as string,
+      meterName: data.get('meterName') as string,
+      unitOfMeasure: data.get('unitOfMeasure') as string,
+      meterCategory: data.get('meterCategory') as string,
+      costInUSD: data.get('costInUSD') as number,
+      resourceLocation: data.get('resourceLocation') as string,
+      kind: 'modern' as const,
     }
+
     return new ConsumptionDetailRow(usageRow)
   }
 

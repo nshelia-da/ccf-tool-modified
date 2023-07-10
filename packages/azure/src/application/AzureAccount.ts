@@ -215,20 +215,6 @@ export default class AzureAccount extends CloudProviderAccount {
     consumptionManagementService.accumulateKnownRowData(dataMapper)
   }
 
-  getCostAndEstimateSingleRow(dataMapper: IMapper): IMapper {
-    const consumptionManagementService = new ConsumptionManagementService(
-      new ComputeEstimator(),
-      new StorageEstimator(AZURE_CLOUD_CONSTANTS.SSDCOEFFICIENT),
-      new StorageEstimator(AZURE_CLOUD_CONSTANTS.HDDCOEFFICIENT),
-      new NetworkingEstimator(AZURE_CLOUD_CONSTANTS.NETWORKING_COEFFICIENT),
-      new MemoryEstimator(AZURE_CLOUD_CONSTANTS.MEMORY_COEFFICIENT),
-      new UnknownEstimator(AZURE_CLOUD_CONSTANTS.ESTIMATE_UNKNOWN_USAGE_BY),
-      new EmbodiedEmissionsEstimator(
-        AZURE_CLOUD_CONSTANTS.SERVER_EXPECTED_LIFESPAN,
-      ),
-    )
-    return consumptionManagementService.getCostAndEstimateSingleRow(dataMapper)
-      }
   /**
    * Creates an array of functions that each return a promise for EstimationResults.
    * Each Promise corresponds to a mapped getDataForSubscription result for that subscription.
@@ -265,20 +251,6 @@ export default class AzureAccount extends CloudProviderAccount {
     })
   }
   
-  public accumulateKnownRowData(dataMapper: IMapper) {
-    const consumptionManagementService = new ConsumptionManagementService(
-      new ComputeEstimator(),
-      new StorageEstimator(AZURE_CLOUD_CONSTANTS.SSDCOEFFICIENT),
-      new StorageEstimator(AZURE_CLOUD_CONSTANTS.HDDCOEFFICIENT),
-      new NetworkingEstimator(AZURE_CLOUD_CONSTANTS.NETWORKING_COEFFICIENT),
-      new MemoryEstimator(AZURE_CLOUD_CONSTANTS.MEMORY_COEFFICIENT),
-      new UnknownEstimator(AZURE_CLOUD_CONSTANTS.ESTIMATE_UNKNOWN_USAGE_BY),
-      new EmbodiedEmissionsEstimator(
-        AZURE_CLOUD_CONSTANTS.SERVER_EXPECTED_LIFESPAN,
-      ),
-    )
-    consumptionManagementService.accumulateKnownRowData(dataMapper)
-  }
 
   getCostAndEstimateSingleRow(dataMapper: IMapper): IMapper {
     const consumptionManagementService = new ConsumptionManagementService(

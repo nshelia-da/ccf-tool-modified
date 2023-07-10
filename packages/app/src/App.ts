@@ -31,19 +31,12 @@ import { OnPremise } from '@cloud-carbon-footprint/on-premise'
 
 import cache from './Cache'
 import { EstimationRequest, RecommendationRequest } from './CreateValidRequest'
-import {
-  IMapper,
-  AccountType,
-  CloudProviderAccount,
-} from '@cloud-carbon-footprint/core'
-
 import { includeCloudProviders } from './common/helpers'
 import {
   IMapper,
   AccountType,
   CloudProviderAccount,
 } from '@cloud-carbon-footprint/core'
-
 
 export const recommendationsMockPath = 'recommendations.mock.json'
 
@@ -256,16 +249,20 @@ export default class App {
 
   getAccountByType(accountType: AccountType): CloudProviderAccount {
     const config = configLoader()
-    const map: Record<AccountType, CloudProviderAccount> = {
+    const map: any = {
       // temporary use config values, not sure it should be here. Otherwise,
       // getCostAndEstimateSingleRow and accumulateKnownRowData should be a part
       // of some other class
-      ['Aws']: new AWSAccount(
+    }
+    if (process.env.ENV === 'Aws') {
+      map['Aws'] = new AWSAccount(
         config.AWS.BILLING_ACCOUNT_ID,
         config.AWS.BILLING_ACCOUNT_NAME,
         [config.AWS.ATHENA_REGION],
-      ),
-      ['Azure']: new AzureAccount(),
+      )
+    }
+    if (process.env.ENV === 'Azure') {
+      map['Azure'] = new AzureAccount()
     }
     const account = map[accountType]
     if (!account) {

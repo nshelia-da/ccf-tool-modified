@@ -1,37 +1,37 @@
 import { Logger } from '@cloud-carbon-footprint/common'
-import { waitMessages } from './services/queue'
 import { processMessage, processLocalFile } from './services/report-processing'
-const logger = new Logger('report-processing')
 
-export async function run({ localMode, isConciseMode }: { localMode: boolean, isConciseMode?: boolean}) {
+const { QueueServiceClient } = require('@azure/storage-queue')
+const { BlobServiceClient } = require('@azure/storage-blob')
+
+const logger = new Logger('report-processing')
+const connectionString = process.env['AZURE_STORAGE_CONNECTION_STRING'] // replace with your Connection String
+const queueName = process.env['AZURE_QUEUE_NAME'] // replace with your Queue name
+
+export async function run({
+  localMode,
+  isConciseMode,
+}: {
+  localMode: boolean
+  isConciseMode?: boolean
+}) {
   logger.info('Listening for SQS queue')
-  if (localMode) {
-    const results = await processLocalFile({ isConciseMode})
-  }  else {
-    while (true) {
-      try {
-        const messages = await waitMessages()
-        if (!messages.length) continue
-        logger.info(`Got a ` + messages.length + ` messages: `)
-        logger.info(messages.map(({ MessageId }) => MessageId).join(', '))
-        const results = await Promise.all(
-          messages.map((message) => processMessage(message, isConciseMode)),
-        )
-        logger.info(
-          messages.length +
-            ` messages processed with ` +
-            results.filter(({ error }) => !!error).length +
-            ` errors`,
-        )
-        results.forEach(({ error, message }) => {
-          if (error) {
-            logger.error(message, error)
-          }
-        })
-      } catch (error) {
-        logger.error('Cant processed messages, reason: ', error)
-      }
+
+  if (process.env.ENV === 'Azure') {
+    const queueServiceClient =
+      QueueServiceClient.fromConnectionString(connectionString)
+    const queueClient = queueServiceClient.getQueueClient(queueName)
+
+    const receiveResponse = await queueClient.receiveMessages()
+
+    if (receiveResponse.receivedMessageItems.length == 1) {
+      const receivedMessageItem = receiveResponse.receivedMessageItems[0]
+      const messageObj = `${Buffer.from(
+        receivedMessageItem.messageText,
+        'base64',
+      )}`
+      console.log('message', JSON.parse(messageObj))
+      await processMessage(messageObj, false)
     }
   }
-
 }

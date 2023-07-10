@@ -22,7 +22,6 @@ export default class ConsumptionDetailRow extends BillingDataRow {
   constructor(usageDetail: UsageDetailResult) {
     const consumptionDetails = getConsumptionDetails(usageDetail)
     super(consumptionDetails)
-
     this.usageType = this.parseUsageType()
     this.seriesName = this.getSeriesFromInstanceType()
     this.vCpuHours = this.usageAmount * this.getVCpus()
@@ -108,7 +107,6 @@ const getConsumptionDetails = (usageDetail: UsageDetailResult) => {
     usageAmount: usageDetail.quantity,
     region: usageDetail.resourceLocation,
   }
-
   if (usageDetail.kind === 'modern') {
     return {
       ...consumptionDetails,
