@@ -126,6 +126,9 @@ export const NETWORKING_USAGE_TYPES: string[] = [
   'Egress',
   'Geo-Replication v2 Data transfer',
   'Data Processed - Egress',
+  'Pay-as-you-go Data Ingestion',
+  'Standard Data Transfer In',
+  'Inter Continent Data Transfer Out - NAM or EU To Any',
 ]
 
 export const MEMORY_USAGE_TYPES: string[] = [

@@ -13,8 +13,11 @@ function getHeadObjectOptions(key: string): HeadObjectRequest {
   return { Bucket: sourceBucket, Key: key.replace(/\\/g, '/') }
 }
 
-export async function getMessageKey(key: string, isLocalMode: boolean, isE2ETest: boolean): Promise<string> {
-
+export async function getMessageKey(
+  key: string,
+  isLocalMode: boolean,
+  isE2ETest: boolean,
+): Promise<string> {
   let date = moment.utc(new Date())
   if (!isLocalMode && !isE2ETest) {
     const options = getHeadObjectOptions(key)
@@ -37,11 +40,15 @@ export async function getMessageKey(key: string, isLocalMode: boolean, isE2ETest
   return path.join('result/', ...params, fileName)
 }
 
-export async function createDestinationStream(key: string, isLocalMode?: boolean, isE2ETest?: boolean) {
+export async function createDestinationStream(
+  key: string,
+  isLocalMode?: boolean,
+  isE2ETest?: boolean,
+) {
   const pass = new PassThrough()
   const params: PutObjectRequest = {
     Bucket: destinationBucket,
-    Key: await getMessageKey(key,isLocalMode,isE2ETest),
+    Key: await getMessageKey(key, isLocalMode, isE2ETest),
     Body: pass,
   }
   return { promise: s3.upload(params).promise(), upload: pass }

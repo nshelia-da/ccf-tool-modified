@@ -228,19 +228,19 @@ export default class ConsumptionManagementService {
 
     // Used in code:
     // serviceName,region,usageType,usageUnit,timestamp,vCpuHours,cpuUtilizationAverage,gpuHours,seriesName,usageAmount,seriesName
-    const dateIn = data.get('date') as string
+    const dateIn = data.get('date') as Date
 
     const usageRow = {
       subscriptionName: data.get('subscriptionName') as string,
-      data: dateIn,
+      date: dateIn,
       quantity: data.get('quantity') as number,
       region: data.get('resourceLocation'),
       tags: {},
-      subscriptionGuid: data.get('subscriptionGuid') as string,
+      subscriptionGuid: data.get('SubscriptionId') as string,
       meterName: data.get('meterName') as string,
       unitOfMeasure: data.get('unitOfMeasure') as string,
       meterCategory: data.get('meterCategory') as string,
-      costInUSD: data.get('costInUSD') as number,
+      costInUSD: Number(data.get('costInUsd')) as number,
       resourceLocation: data.get('resourceLocation') as string,
       kind: 'modern' as const,
     }
@@ -263,6 +263,9 @@ export default class ConsumptionManagementService {
       estimates = this.getEstimateForUnknownUsage(consumptionDetailRow)
     } else {
       estimates = this.getEstimateByPricingUnit(consumptionDetailRow)
+    }
+    if (!estimates) {
+      console.error('Cannot estimate', consumptionDetailRow.usageType)
     }
     Object.entries(estimates).forEach(([key, value]) => data.set(key, value))
     return data
@@ -600,7 +603,13 @@ export default class ConsumptionManagementService {
         AccumulateKilowattHoursBy.USAGE_AMOUNT,
       )
     }
-    return networkingEstimate
+    if (!networkingEstimate) {
+      console.error(
+        'no networking estimate for ',
+        consumptionDetailRow.usageType,
+      )
+    }
+    return (networkingEstimate || 0) as FootprintEstimate
   }
 
   private getStorageFootprintEstimate(

@@ -19,6 +19,9 @@ import { createGzip } from 'zlib'
 import { Logger } from '@cloud-carbon-footprint/common'
 import moment from 'moment'
 import { readFileSync } from 'fs'
+import { BlobServiceClient } from '@azure/storage-blob'
+import { PassThrough } from 'stream'
+
 const logger = new Logger('report-processing')
 enum Headers {
   APPLICATION_VERSION_COLUMN_NAME = 'ccf_version',
@@ -128,7 +131,6 @@ export async function processMessage(
     const files = body.files
     const isE2ETest = !!body.isE2ETest
     const app: App = await new App()
-    console.log('AccountTypes', accountType)
     // Accumulate the data for unknown rows
     for (const key of files) {
       logger.info('Accumulate data from the file: ' + key)
@@ -140,7 +142,6 @@ export async function processMessage(
         isConciseMode,
       )
     }
-    return {}
 
     const accData = app.getAccumulatedData(accountType)
 
@@ -148,31 +149,57 @@ export async function processMessage(
     for (const key of files) {
       StopWatch.start()
       logger.info('Enrich data in file: ' + key)
-      const readForEnrichment = await createSourceStream(key)
+      const pt = new PassThrough() // import {PassThrough} from "stream";
 
-      const { upload, promise } = await createDestinationStream(
-        key,
-        false,
-        isE2ETest,
-      )
-      const [, { amountOfRows }] = await Promise.all([
-        promise,
-        enrichReport(
-          app,
-          accountType,
-          readForEnrichment,
-          upload,
-          accData,
-          isConciseMode,
-        ),
-      ])
+      const readForEnrichment = await createSourceStream(key)
+      const connectionString = process.env['AZURE_STORAGE_CONNECTION_STRING'] // you can get this from the Azure dashboard
+      const containerName = 'result-container' // name of the container
+      const blobServiceClient =
+        BlobServiceClient.fromConnectionString(connectionString)
+      const containerClient =
+        blobServiceClient.getContainerClient(containerName)
+      console.log('got here 2')
+      const blobClient = containerClient.getBlockBlobClient(key)
+      const bufferSize = (1 * 1024 * 1024) / 2
+
+      const uploadPromise = blobClient.uploadStream(pt, bufferSize, 5, {
+        onProgress: (ev) => {
+          console.log('progress', ev)
+        },
+      })
+      await enrichReport(
+        app,
+        accountType,
+        readForEnrichment,
+        pt,
+        accData,
+        isConciseMode,
+      ),
+        await uploadPromise
+      // const { upload, promise } = await createDestinationStream(
+      //   key,
+      //   false,
+      //   isE2ETest,
+      // )
+      // console.log('promise', upload, typeof upload, typeof promise)
+      // const [, { amountOfRows }] = await Promise.all([
+      //   promise,
+      //   enrichReport(
+      //     app,
+      //     accountType,
+      //     readForEnrichment,
+      //     upload,
+      //     accData,
+      //     isConciseMode,
+      //   ),
+      // ])
       const timeTakes = StopWatch.stop()
       logger.info(
-        `Processing the file: ${key} with ${amountOfRows}  is DONE! in ${timeTakes} (HH:MM:SS)`,
+        `Processing the file: ${key} with 2  is DONE! in ${timeTakes} (HH:MM:SS)`,
       )
     }
 
-    await deleteMessage(message)
+    // await deleteMessage(message)
     return {}
   } catch (error) {
     console.log('Error', error)
@@ -247,6 +274,8 @@ function setAppVersion(mapper: IMapper): IMapper {
   return mapper
 }
 
+async function enrichReportAzure() {}
+
 async function enrichReport(
   app: App,
   providerType: AccountType,
@@ -297,14 +326,7 @@ async function enrichReport(
     )
     const stringifier = stringify({ delimiter: ',' })
 
-    const pipe = pipeline(
-      input,
-      readline,
-      enricher,
-      stringifier,
-      createGzip(),
-      destination,
-    )
+    const pipe = pipeline(input, readline, enricher, stringifier, destination)
 
     await pipe
     return { amountOfRows }
