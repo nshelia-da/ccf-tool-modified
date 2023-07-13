@@ -571,18 +571,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/arm-consumption@npm:^8.0.0":
-  version: 8.0.1
-  resolution: "@azure/arm-consumption@npm:8.0.1"
-  dependencies:
-    "@azure/core-auth": ^1.1.4
-    "@azure/ms-rest-azure-js": ^2.1.0
-    "@azure/ms-rest-js": ^2.2.0
-    tslib: ^1.10.0
-  checksum: 353d651e31eac9ff302f16f5fd5a1eb807e9d0e8576636dfb5c2f75b908e986ca4cd10fbc36453aef079e59b7d0166654e25c7d25265c71737aee497d4a9bc20
-  languageName: node
-  linkType: hard
-
 "@azure/arm-consumption@npm:^9.2.0":
   version: 9.2.0
   resolution: "@azure/arm-consumption@npm:9.2.0"
@@ -847,17 +835,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/ms-rest-azure-js@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@azure/ms-rest-azure-js@npm:2.1.0"
-  dependencies:
-    "@azure/core-auth": ^1.1.4
-    "@azure/ms-rest-js": ^2.2.0
-    tslib: ^1.10.0
-  checksum: 0e6d6700f4ee0ad14383642b02fe86b33f4034aaff38499374ed5be59154e869ee231790d20b7557622ebcdfa9eed45dc2559391a79dee51c849a8ced0c86fed
-  languageName: node
-  linkType: hard
-
 "@azure/ms-rest-js@npm:^2.0.4":
   version: 2.6.1
   resolution: "@azure/ms-rest-js@npm:2.6.1"
@@ -872,22 +849,6 @@ __metadata:
     uuid: ^8.3.2
     xml2js: ^0.4.19
   checksum: 6ce68d7281b941c5012476e751e98fcf015f679e57936633bbcb7923c98f64b447ee81f5d839f4b3cdb77059e6d2672d26ba142d0a72072d4cee844ff0562b38
-  languageName: node
-  linkType: hard
-
-"@azure/ms-rest-js@npm:^2.2.0":
-  version: 2.7.0
-  resolution: "@azure/ms-rest-js@npm:2.7.0"
-  dependencies:
-    "@azure/core-auth": ^1.1.4
-    abort-controller: ^3.0.0
-    form-data: ^2.5.0
-    node-fetch: ^2.6.7
-    tslib: ^1.10.0
-    tunnel: 0.0.6
-    uuid: ^8.3.2
-    xml2js: ^0.5.0
-  checksum: 38434010f3fc54a625f637a7758358d7ce0ad3e55ce9a6c7490bf05bbec8ea75ae95fe80041d2376beb3ef78ee6e55858bd0541477d7a88703246e368cfd59c1
   languageName: node
   linkType: hard
 
@@ -3329,7 +3290,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cloud-carbon-footprint/report-processing@workspace:packages/report-processing"
   dependencies:
-    "@azure/arm-consumption": ^8.0.0
+    "@azure/arm-consumption": ^9.2.0
     "@azure/arm-resources-subscriptions": ^2.0.0
     "@azure/storage-blob": ^12.14.0
     "@azure/storage-queue": ^12.13.0
