@@ -2911,7 +2911,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-unused-imports: ^2.0.0
     express: ^4.17.1
-    helmet: ^5.0.1
+    helmet: ^7.0.0
     jest: ^27.4.7
     jest-when: ^3.5.0
     lint-staged: ^12.1.7
@@ -3125,7 +3125,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-unused-imports: ^2.0.0
     express: ^4.17.1
-    helmet: ^5.0.1
+    helmet: ^7.0.0
     immer: ^9.0.2
     jest: ^27.4.7
     json-server: ^0.17.0
@@ -14158,10 +14158,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"helmet@npm:^5.0.1":
-  version: 5.1.0
-  resolution: "helmet@npm:5.1.0"
-  checksum: 076958ed8262b72e77276f9e7e9a5e3628b3a44bf39a64a856e919fd3d5a887d3a29b58c1729dfdb0645afd440e763d29a871e866f1fa658f91a718da82ca052
+"helmet@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "helmet@npm:7.0.0"
+  checksum: 3622b8b68b7ac4736369fe7717adb5b87ddcdcda7c11c13277d79fb5670acab032e8c971835565b1d2144d234f3e0dbcd327a44249b9e61f0f64c0c753faf1bc
   languageName: node
   linkType: hard
 
