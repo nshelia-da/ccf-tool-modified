@@ -3153,7 +3153,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cloud-carbon-footprint/common@workspace:packages/common"
   dependencies:
-    "@google-cloud/logging-winston": ^4.1.1
+    "@google-cloud/logging-winston": ^6.0.0
     "@types/jest": ^27.4.0
     "@types/node": ^17.0.8
     "@typescript-eslint/eslint-plugin": ^5.9.0
@@ -3810,7 +3810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/common@npm:^3.4.1, @google-cloud/common@npm:^3.9.0":
+"@google-cloud/common@npm:^3.9.0":
   version: 3.10.0
   resolution: "@google-cloud/common@npm:3.10.0"
   dependencies:
@@ -3824,6 +3824,23 @@ __metadata:
     retry-request: ^4.2.2
     teeny-request: ^7.0.0
   checksum: 833b593777425c4193620e94d5eba6b63065b35681b9a45d3c77fbfcf728844a1cc15ec383c7dabb9926d3d40a1e96f6a7386f26939cf69575671aff91e81717
+  languageName: node
+  linkType: hard
+
+"@google-cloud/common@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@google-cloud/common@npm:5.0.0"
+  dependencies:
+    "@google-cloud/projectify": ^4.0.0
+    "@google-cloud/promisify": ^4.0.0
+    arrify: ^2.0.1
+    duplexify: ^4.1.1
+    ent: ^2.2.0
+    extend: ^3.0.2
+    google-auth-library: ^9.0.0
+    retry-request: ^6.0.0
+    teeny-request: ^9.0.0
+  checksum: c566bcf157671e90a96c5f4ed25e2357e86d003216483b24ed308916367045bc92e4aea7f72ac9cb8a5ff09f6df49ab3876b9a3c1acf3d0b400a971c99c5bfee
   languageName: node
   linkType: hard
 
@@ -3845,40 +3862,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/logging-winston@npm:^4.1.1":
-  version: 4.2.4
-  resolution: "@google-cloud/logging-winston@npm:4.2.4"
+"@google-cloud/logging-winston@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@google-cloud/logging-winston@npm:6.0.0"
   dependencies:
-    "@google-cloud/logging": ^9.6.9
-    google-auth-library: ^7.0.0
+    "@google-cloud/logging": ^11.0.0
+    google-auth-library: ^9.0.0
     lodash.mapvalues: ^4.6.0
     winston-transport: ^4.3.0
   peerDependencies:
     winston: ">=3.2.1"
-  checksum: ef23554ac2816d2f87dbc43796910e6c412d8242ecae1ab8cffb9124399f05f66a18a363c68b78e160eb74ee80aaf784efe77eda0b8cae75f03a670b7b32d77b
+  checksum: dd4d2c338491f62365ac7d8ee358a3fecbd084916e725ca300ae85d5c16f16d419b80e52eb56fb32127300913a46a7a0b69dc50bd0e86cc4d78bb57cdc17a19b
   languageName: node
   linkType: hard
 
-"@google-cloud/logging@npm:^9.6.9":
-  version: 9.9.0
-  resolution: "@google-cloud/logging@npm:9.9.0"
+"@google-cloud/logging@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@google-cloud/logging@npm:11.0.0"
   dependencies:
-    "@google-cloud/common": ^3.4.1
-    "@google-cloud/paginator": ^3.0.0
-    "@google-cloud/projectify": ^2.0.0
-    "@google-cloud/promisify": ^2.0.0
+    "@google-cloud/common": ^5.0.0
+    "@google-cloud/paginator": ^5.0.0
+    "@google-cloud/projectify": ^4.0.0
+    "@google-cloud/promisify": ^4.0.0
     arrify: ^2.0.1
     dot-prop: ^6.0.0
     eventid: ^2.0.0
     extend: ^3.0.2
-    gcp-metadata: ^4.0.0
-    google-auth-library: ^7.0.0
-    google-gax: ^2.24.1
+    gcp-metadata: ^6.0.0
+    google-auth-library: ^9.0.0
+    google-gax: ^4.0.3
     on-finished: ^2.3.0
     pumpify: ^2.0.1
     stream-events: ^1.0.5
-    uuid: ^8.0.0
-  checksum: 50291efccea1bcf571ac50f014278533dfcdf1651636e0521fe1df76ade60a926b7c86ab141f611010211c6b8b03a7931fa8b05120af586d7dd04e7804619f6a
+    uuid: ^9.0.0
+  checksum: 8826403c804020a7024d5ca49fa6a112669b2bc62ceb08bad5c611df4e8c182ad8f239f867a58a8ab03cf0a03d365578f0819db0a68f674a1607e8448745a063
   languageName: node
   linkType: hard
 
@@ -3901,6 +3918,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@google-cloud/paginator@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@google-cloud/paginator@npm:5.0.0"
+  dependencies:
+    arrify: ^2.0.0
+    extend: ^3.0.2
+  checksum: 7b8236ce610bef5c5de62a0ec267b0e4368480397621a692d213c56ffe66b20a8e6d4de0fe0606fd165672c873467ea313493f035a582e674df72c29dd20b7ef
+  languageName: node
+  linkType: hard
+
 "@google-cloud/projectify@npm:^2.0.0":
   version: 2.1.1
   resolution: "@google-cloud/projectify@npm:2.1.1"
@@ -3908,10 +3935,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@google-cloud/projectify@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@google-cloud/projectify@npm:4.0.0"
+  checksum: 973d28414ae200433333a3c315aebb881ced42ea4afe6f3f8520d2fecded75e76c913f5189fea8fb29ce6ca36117c4f44001b3c503eecdd3ac7f02597a98354a
+  languageName: node
+  linkType: hard
+
 "@google-cloud/promisify@npm:^2.0.0":
   version: 2.0.4
   resolution: "@google-cloud/promisify@npm:2.0.4"
   checksum: 51a9fb6c43e5342d995435b3660afe8d7a498ed65e6f5fef6492cc2ac2b494c1ec89e8f220b8a8e23f1c90334b7db5169c292f0a317e971d57366426a2420247
+  languageName: node
+  linkType: hard
+
+"@google-cloud/promisify@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@google-cloud/promisify@npm:4.0.0"
+  checksum: edd189398c5ed5b7b64a373177d77c87d076a248c31b8ae878bb91e2411d89860108bcb948c349f32628973a823bd131beb53ec008fd613a8cb466ef1d89de49
   languageName: node
   linkType: hard
 
@@ -8184,6 +8225,15 @@ __metadata:
   dependencies:
     debug: 4
   checksum: f52b6872cc96fd5f622071b71ef200e01c7c4c454ee68bc9accca90c98cfb39f2810e3e9aa330435835eedc8c23f4f8a15267f67c6e245d2b33757575bdac49d
+  languageName: node
+  linkType: hard
+
+"agent-base@npm:^7.0.2":
+  version: 7.1.0
+  resolution: "agent-base@npm:7.1.0"
+  dependencies:
+    debug: ^4.3.4
+  checksum: f7828f991470a0cc22cb579c86a18cbae83d8a3cbed39992ab34fc7217c4d126017f1c74d0ab66be87f71455318a8ea3e757d6a37881b8d0f2a2c6aa55e5418f
   languageName: node
   linkType: hard
 
@@ -13478,13 +13528,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gcp-metadata@npm:^4.0.0, gcp-metadata@npm:^4.2.0":
+"gaxios@npm:^6.0.0":
+  version: 6.1.0
+  resolution: "gaxios@npm:6.1.0"
+  dependencies:
+    extend: ^3.0.2
+    https-proxy-agent: ^7.0.1
+    is-stream: ^2.0.0
+    node-fetch: ^2.6.9
+  checksum: 712f99d53e035ab3e7532a819c0170bb0db9fd08e887fd6e456afb08de65abaf80b0a5f56712cc9d43d439414ef6a0d9b3784400a45820d9eabca0e820974ba0
+  languageName: node
+  linkType: hard
+
+"gcp-metadata@npm:^4.2.0":
   version: 4.3.1
   resolution: "gcp-metadata@npm:4.3.1"
   dependencies:
     gaxios: ^4.0.0
     json-bigint: ^1.0.0
   checksum: b0b1b85ea2efee1d640a1d4ead0937fdcceffd43ab4cacfdd66fd086fcfe5c3d09ad850ee14f43f2dc73244b2617b166adfa09a2a85e0652a8c56bed194f01fe
+  languageName: node
+  linkType: hard
+
+"gcp-metadata@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "gcp-metadata@npm:6.0.0"
+  dependencies:
+    gaxios: ^6.0.0
+    json-bigint: ^1.0.0
+  checksum: c86a362819cee8d29cce02d9ce7e4e11687bfc6a91cb015f19a14f5015f66ef9cf2c93aa59f66e10915e4b0b8ed9ea90f0ac473594ad1dec5402f2e984a5662b
   languageName: node
   linkType: hard
 
@@ -13925,6 +13997,25 @@ __metadata:
     compileProtos: build/tools/compileProtos.js
     minifyProtoJson: build/tools/minify.js
   checksum: 4c7b1b5a278ffda3eaa92e7f25a9e0ea2d0a76aca704aca4baee4fe9d109916e97e83062ad751006ed93ac675a7fd74028061204fa9ed92833a853e6657a71a1
+  languageName: node
+  linkType: hard
+
+"google-gax@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "google-gax@npm:4.0.3"
+  dependencies:
+    "@grpc/grpc-js": ~1.8.0
+    "@grpc/proto-loader": ^0.7.0
+    "@types/long": ^4.0.0
+    abort-controller: ^3.0.0
+    duplexify: ^4.0.0
+    google-auth-library: ^9.0.0
+    node-fetch: ^2.6.1
+    object-hash: ^3.0.0
+    proto3-json-serializer: ^1.1.1
+    protobufjs: 7.2.4
+    retry-request: ^6.0.0
+  checksum: c7e5ae305fe92a3ce1a3446ada35d5607187d752281e445a74d1b7b6cc037a061922712432761ea3ae5091c11e9416c839a5cb1e07fedca26040db02d6bf89cf
   languageName: node
   linkType: hard
 
@@ -14418,6 +14509,16 @@ __metadata:
     agent-base: 6
     debug: 4
   checksum: 571fccdf38184f05943e12d37d6ce38197becdd69e58d03f43637f7fa1269cf303a7d228aa27e5b27bbd3af8f09fd938e1c91dcfefff2df7ba77c20ed8dfc765
+  languageName: node
+  linkType: hard
+
+"https-proxy-agent@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "https-proxy-agent@npm:7.0.1"
+  dependencies:
+    agent-base: ^7.0.2
+    debug: 4
+  checksum: 2d765c31865071373771f53abdd72912567b76015a4eff61094f586194192950cd89257d50f0e621807a16c083bc8cad5852e3885c6ba154d2ce721a18fac248
   languageName: node
   linkType: hard
 
@@ -18128,6 +18229,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-fetch@npm:^2.6.9":
+  version: 2.6.12
+  resolution: "node-fetch@npm:2.6.12"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: 3bc1655203d47ee8e313c0d96664b9673a3d4dd8002740318e9d27d14ef306693a4b2ef8d6525775056fd912a19e23f3ac0d7111ad8925877b7567b29a625592
+  languageName: node
+  linkType: hard
+
 "node-forge@npm:^1, node-forge@npm:^1.3.1":
   version: 1.3.1
   resolution: "node-forge@npm:1.3.1"
@@ -20442,6 +20557,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proto3-json-serializer@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "proto3-json-serializer@npm:1.1.1"
+  dependencies:
+    protobufjs: ^7.0.0
+  checksum: 0cd94cb635a9b9b3a2d047700175be4a6c7b7a43e2698826edad17604793764bcdfc270585ea58cb94aa690211b6cdaae5bf7a22522bea68ca67a2844773b4b7
+  languageName: node
+  linkType: hard
+
 "protobufjs-cli@npm:1.1.1":
   version: 1.1.1
   resolution: "protobufjs-cli@npm:1.1.1"
@@ -20506,6 +20630,26 @@ __metadata:
     "@types/node": ">=13.7.0"
     long: ^5.0.0
   checksum: 9afa6de5fced0139a5180c063718508fac3ea734a9f1aceb99712367b15473a83327f91193f16b63540f9112b09a40912f5f0441a9b0d3f3c6a1c7f707d78249
+  languageName: node
+  linkType: hard
+
+"protobufjs@npm:7.2.4":
+  version: 7.2.4
+  resolution: "protobufjs@npm:7.2.4"
+  dependencies:
+    "@protobufjs/aspromise": ^1.1.2
+    "@protobufjs/base64": ^1.1.2
+    "@protobufjs/codegen": ^2.0.4
+    "@protobufjs/eventemitter": ^1.1.0
+    "@protobufjs/fetch": ^1.1.0
+    "@protobufjs/float": ^1.0.2
+    "@protobufjs/inquire": ^1.1.0
+    "@protobufjs/path": ^1.1.2
+    "@protobufjs/pool": ^1.1.0
+    "@protobufjs/utf8": ^1.1.0
+    "@types/node": ">=13.7.0"
+    long: ^5.0.0
+  checksum: a952cdf2a5e5250c16ae651b570849b6f5b20a5475c3eef63ffb290ad239aa2916adfc1cc676f7fc93c69f48113df268761c0c246f7f023118c85bdd1a170044
   languageName: node
   linkType: hard
 
@@ -21807,6 +21951,16 @@ __metadata:
     debug: ^4.1.1
     extend: ^3.0.2
   checksum: d6c95d27f4468aa5557605d811cfaa5862be0eaff9fc5f18a338a7c17a7972fbec5b6142abb6b1e494b4c02df875fec2f1c3a281bf79900d33607d8536277ffe
+  languageName: node
+  linkType: hard
+
+"retry-request@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "retry-request@npm:6.0.0"
+  dependencies:
+    debug: ^4.1.1
+    extend: ^3.0.2
+  checksum: 54cd6bc37be509301ebaab944fa64a1be63986ccd2752a06acf05b2ef19b5c06875880754ecd0072680110ba1c30c81337f9547026034ba459ebd1b512799bd7
   languageName: node
   linkType: hard
 
@@ -23583,6 +23737,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"teeny-request@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "teeny-request@npm:9.0.0"
+  dependencies:
+    http-proxy-agent: ^5.0.0
+    https-proxy-agent: ^5.0.0
+    node-fetch: ^2.6.9
+    stream-events: ^1.0.5
+    uuid: ^9.0.0
+  checksum: 9cb0ad83f9ca6ce6515b3109cbb30ceb2533cdeab8e41c3a0de89f509bd92c5a9aabd27b3adf7f3e49516e106a358859b19fa4928a1937a4ab95809ccb7d52eb
+  languageName: node
+  linkType: hard
+
 "temp-dir@npm:^1.0.0":
   version: 1.0.0
   resolution: "temp-dir@npm:1.0.0"
@@ -24937,6 +25104,15 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
   languageName: node
   linkType: hard
 
